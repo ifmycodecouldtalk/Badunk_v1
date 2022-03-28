@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
-import { FetchDataTest } from './components/FetchDataTest';
+import { Objectives } from './components/Objectives';
 import { Counter } from './components/Counter';
 import { Create } from './components/Create';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
@@ -20,8 +20,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
-        <AuthorizeRoute path='/fetch-data' component={FetchData} />
-        <AuthorizeRoute path='/fetch-data-test' component={FetchDataTest} />
+        <AuthorizeRoute path='/objectives' component={Objectives} />
         <AuthorizeRoute path='/create' component={Create} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>

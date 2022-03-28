@@ -2,8 +2,8 @@
 import authService from './api-authorization/AuthorizeService'
 
 
-export class FetchDataTest extends Component {
-    static displayName = FetchDataTest.name;
+export class Objectives extends Component {
+    static displayName = Objectives.name;
 
     constructor(props) {
         super(props);
@@ -15,6 +15,17 @@ export class FetchDataTest extends Component {
             match: false,       // to check if the user exists already or not
             userNameCut: null   // the user's name without the email extension
         };
+    }
+
+    static sayHello(userID, userName) {
+        let confirmDelete = window.confirm("Are you sure you would like to delete this objective?");
+        if (confirmDelete) {
+            const url = "https://badunkapi.azurewebsites.net/" + userName + "/objectives/" + userID;
+            fetch(url, {
+                method: 'delete'
+            });
+            setTimeout(function () { window.location.reload(true) }, 500);
+        }
     }
 
     /* Steps to Complete */
@@ -80,7 +91,7 @@ export class FetchDataTest extends Component {
         this.setState({ apiObjectives: data, loading: false });
     }
 
-    static renderUsersTable(apiObjectives) {
+    static renderUsersTable(apiObjectives, userName) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
@@ -96,6 +107,10 @@ export class FetchDataTest extends Component {
                             <td>{user.id}</td>
                             <td>{user.name}</td>
                             <td>{user.description}</td>
+                            <td>
+                                <button className="btn btn-primary" type="button">EDIT</button>
+                                <button className="btn btn-danger" type="button" onClick={() => Objectives.sayHello(user.id, userName)}>DELETE</button>
+                            </td>
                         </tr>
                     )}
                 </tbody>
@@ -106,7 +121,7 @@ export class FetchDataTest extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : FetchDataTest.renderUsersTable(this.state.apiObjectives);
+            : Objectives.renderUsersTable(this.state.apiObjectives, this.state.userNameCut);
 
         return (
             <div>

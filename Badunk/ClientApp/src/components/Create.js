@@ -38,20 +38,22 @@ export class Create extends Component {
         });
     }
 
-    async onSubmit() {
+    async onSubmit(e) {
+        e.preventDefault();
         let Name = this.state.name;
         let Description = this.state.description;
         let userName = this.state.username;
-        userName = userName.substring(0, userName.indexOf("@"))
-        console.log("Name: " + this.state.name + ", Description: " + this.state.description);
-        await fetch(`https://badunkapi.azurewebsites.net/${userName}/objectives`, {
+        userName = userName.substring(0, userName.indexOf("@"));
+        let fetchData = await fetch(`https://badunkapi.azurewebsites.net/${userName}/objectives`, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: Name,
                 description: Description
             })
-        }).then(response => console.log("Success"));
+        });
+        alert("Objective Created!");
+        setTimeout(function () { window.location.reload(true) }, 500);
     }
 
 
@@ -60,21 +62,31 @@ export class Create extends Component {
             <div>
                 <h1>Create Page</h1>
                 <form onSubmit={this.onSubmit}>
-                    <label>
-                        Name:
+                    <div className="form-group">
+                        <label for="objectiveName">Name:</label>
                         <input
+                            id="objectiveName"
+                            className="form-control"
                             name="name"
                             type="text"
-                            onChange={this.handleInputChange} />
-                    </label>
-                    <label>
-                        Description:
+                            onChange={this.handleInputChange}
+                            autocomplete="off"
+                            placeholder="Enter Ojective Name" />
+                    </div>
+                    <br />
+                    <div className="form-group">
+                        <label for="objectiveDescription">Description:</label>
                         <input
+                            id="objectiveDescription"
+                            className="form-control"
                             name="description"
                             type="text"
-                            onChange={this.handleInputChange} />
-                    </label>
-                    <button type="submit">Create</button>
+                            onChange={this.handleInputChange}
+                            placeholder="Enter Objective Description"
+                            autocomplete="off" />
+                    </div>
+                    <br />
+                    <button className="btn btn-primary" type="submit">Create</button>
                 </form>
             </div>
         );
